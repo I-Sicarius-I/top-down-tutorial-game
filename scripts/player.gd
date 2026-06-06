@@ -105,4 +105,5 @@ func update_hitbox_offset() -> void:
 
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	if is_attacking and body.name.begins_with("Slime"):
-		print("Hit for %.2f damage" % [damage])
+		body.take_damage(damage, position)
+		print("%s: [%.2f / %.2f]" % [body.name, body.health, body.max_health])

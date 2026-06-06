@@ -10,5 +10,5 @@ position = Vector2(654, 404)
 scale = Vector2(4, 4)
 
 [node name="Slime" parent="." unique_id=2043843246 instance=ExtResource("2_0wfyh")]
-position = Vector2(803, 416)
+position = Vector2(172.00012, 240)
 scale = Vector2(3, 3)
