@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal died
+signal health_changed(new_health: float)
 
 @onready var attack_hitbox: Area2D = $AttackHitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -17,7 +18,7 @@ var is_attacking : bool = false
 var max_health: float = 100.
 var is_alive: bool = true
 var health: float
-var damage : float
+var damage : float = 10.
 
 func _ready():
 	# Initialize hitbox offset
@@ -118,7 +119,7 @@ func update_hitbox_offset() -> void:
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	if is_attacking and body.name.begins_with("Slime"):
 		body.take_damage(damage, position)
-		#print("%s: [%.2f / %.2f]" % [body.name, body.health, body.max_health])
+		print("%s: [%.2f / %.2f]" % [body.name, body.health, body.max_health])
 		
 		
 		
@@ -133,6 +134,7 @@ func take_damage(amount: float) -> void:
 			
 		health -= amount
 		PlayerStats.health = health
+		emit_signal("health_changed", health)
 		take_damage_audio.play()
 		print("Health: [%.2f/%.2f]" % [health, max_health])
 	
