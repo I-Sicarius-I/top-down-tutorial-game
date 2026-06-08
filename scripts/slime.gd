@@ -3,13 +3,17 @@ extends CharacterBody2D
 @onready var take_damage_sound: AudioStreamPlayer2D = $TakeDamage
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health_bar: Node2D = $HealthBar
+@onready var attack_timer: Timer = $AttackTimer
 
 const SPEED := 100
-const KNOCKBACK_FORCE := 100
+const KNOCKBACK_FORCE: int = 100
+
 var target = null
-var is_alive := true
-var health := 100.
-var max_health = health
+var target_in_range = false
+var is_alive: bool= true
+var health: float = 100.
+var max_health: float = health
+var base_damage: float = 10.
 
 
 func _physics_process(delta: float) -> void:
@@ -51,6 +55,7 @@ func _die() -> void:
 	# Disable collision
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sight/CollisionShape2D.set_deferred("disabled", true)
+	$Hitbox/CollisionShape2D.set_deferred("disabled", true)
 	
 func _on_sight_body_entered(body: Node2D) -> void:
 	if body.name == "Player" and is_alive:
@@ -62,3 +67,22 @@ func _on_sight_body_exited(body: Node2D) -> void:
 	if body.name == "Player" and is_alive:	
 		target = null
 		animated_sprite_2d.play("idle")
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		target_in_range = true
+		body.take_damage(base_damage)
+		attack_timer.start()
+		 # Replace with function body.
+
+
+func _on_attack_timer_timeout() -> void:
+	if target and target_in_range:
+		target.take_damage(base_damage)
+
+
+func _on_hitbox_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		attack_timer.stop()
+		target_in_range = false # Replace with function body.

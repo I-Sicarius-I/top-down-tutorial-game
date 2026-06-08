@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ewxbvsw63kt5" path="res://assets/sprites/Enemies/Slime_Green.png" id="1_371uh"]
 [ext_resource type="Script" uid="uid://c5xbn7oi8knqo" path="res://scripts/slime.gd" id="1_p2gj0"]
-[ext_resource type="AudioStream" uid="uid://b5laleoq6x1ce" path="res://assets/audio/751338__qubodup__slime-attack-1.wav" id="3_n6pvg"]
+[ext_resource type="AudioStream" uid="uid://b5laleoq6x1ce" path="res://assets/audio/swing.wav" id="3_n6pvg"]
 [ext_resource type="PackedScene" uid="uid://cxhdu5x1ehron" path="res://scenes/health_bar.tscn" id="4_pjw23"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p2gj0"]
@@ -169,6 +169,9 @@ size = Vector2(20, 15)
 [sub_resource type="CircleShape2D" id="CircleShape2D_371uh"]
 radius = 150.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjw23"]
+size = Vector2(22, 17)
+
 [node name="Slime" type="CharacterBody2D" unique_id=2043843246]
 collision_layer = 2
 collision_mask = 0
@@ -196,5 +199,16 @@ pitch_scale = 0.75
 [node name="HealthBar" parent="." unique_id=114246445 instance=ExtResource("4_pjw23")]
 position = Vector2(-9, -13)
 
+[node name="Hitbox" type="Area2D" parent="." unique_id=691721859]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1858821273]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_pjw23")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=459676618]
+
 [connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="." method="_on_sight_body_exited"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="Hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

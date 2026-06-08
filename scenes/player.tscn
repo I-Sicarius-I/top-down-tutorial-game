@@ -2,7 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://yg6ebabfd272" path="res://assets/sprites/Player/Player.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cm1brejfs7xga" path="res://scripts/player.gd" id="1_g2els"]
-[ext_resource type="AudioStream" uid="uid://dge3nxv84jcws" path="res://assets/audio/530444__mellau__whoosh-short-4.wav" id="3_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://dge3nxv84jcws" path="res://assets/audio/hit_enemy.wav" id="3_qhqgy"]
+[ext_resource type="AudioStream" uid="uid://o0lwb6c34k2q" path="res://assets/audio/player_damage.wav" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3vyb7"]
 atlas = ExtResource("1_3vyb7")
@@ -278,7 +279,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_md1ol")
 }],
-"loop": true,
+"loop": false,
 "name": &"dying",
 "speed": 5.0
 }, {
@@ -433,16 +434,12 @@ script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=584816410]
 sprite_frames = SubResource("SpriteFrames_60mlk")
-animation = &"idle_down"
+animation = &"dying"
 autoplay = "idle_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2101056050]
 position = Vector2(-0.5, 3.5)
 shape = SubResource("RectangleShape2D_dqkch")
-
-[node name="SwingSword" type="AudioStreamPlayer2D" parent="." unique_id=2108670228]
-stream = ExtResource("3_qhqgy")
-pitch_scale = 3.0
 
 [node name="AttackHitbox" type="Area2D" parent="." unique_id=310474256]
 position = Vector2(7.5, -0.5)
@@ -457,6 +454,17 @@ limit_left = 0
 limit_top = 0
 limit_right = 3136
 limit_bottom = 1600
+
+[node name="SwingSword" type="AudioStreamPlayer2D" parent="." unique_id=2108670228]
+stream = ExtResource("3_qhqgy")
+pitch_scale = 3.0
+
+[node name="TakeDamage" type="AudioStreamPlayer2D" parent="." unique_id=1008086264]
+stream = ExtResource("4_dqkch")
+
+[node name="DamageCooldown" type="Timer" parent="." unique_id=1226555056]
+wait_time = 0.5
+one_shot = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
