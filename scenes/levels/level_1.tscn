@@ -3,3 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://b3xs3qlaj74gf" path="res://scenes/levels/level_root.tscn" id="1_3hls8"]
 
 [node name="LevelRoot" unique_id=294383254 instance=ExtResource("1_3hls8")]
+scale = Vector2(1, 1)
+
+[node name="Terrain" parent="." index="0" unique_id=1219090592]
+scale = Vector2(4, 4)
+
+[node name="Decoration" parent="." index="1" unique_id=1534069243]
+scale = Vector2(4, 4)

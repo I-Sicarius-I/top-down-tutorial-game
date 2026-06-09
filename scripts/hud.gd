@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var fade_overlay: ColorRect = $FadeOverlay
 @onready var hearts_container: HBoxContainer = $Hearts
 
-const HEART_SIZE: int = 20.0
+const HEART_SIZE: int = 20
 
 const HEART_FULL = preload("res://assets/sprites/UI/player/heartf.png")
 const HEART_HALF = preload("res://assets/sprites/UI/player/heart_half.png")

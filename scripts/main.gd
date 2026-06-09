@@ -9,7 +9,7 @@ var current_level_root: Node2D = null
 func _ready() -> void:
 	current_level_root = get_node("LevelRoot")
 	
-	_setup_level(current_level_root)
+	_load_level(level)
 
 
 # ------------------------------------------------------------

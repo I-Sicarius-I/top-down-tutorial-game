@@ -15,10 +15,10 @@ const SPEED = 300.0
 var last_direction : Vector2 = Vector2.RIGHT
 var is_attacking : bool = false
 
-var max_health: float = 100.
+var max_health: float
 var is_alive: bool = true
 var health: float
-var damage : float = 10.
+var damage : float = 25.
 
 func _ready():
 	# Initialize hitbox offset
@@ -89,6 +89,7 @@ func attack() -> void:
 	attack_hitbox.monitoring = true
 	swing_sword_audio.play()
 	play_animation("attack", last_direction)
+	print("player: ", position, " ", global_position)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -143,6 +144,13 @@ func take_damage(amount: float) -> void:
 	
 		# Invincibility frames
 		damage_cooldown.start()
+
+func heal(amount: float) -> void:
+	health += amount
+	health = health if health < max_health else max_health
+	PlayerStats.health = health
+	
+	emit_signal("health_changed", health)
 
 func _die() -> void:
 	sprite.play("dying")
